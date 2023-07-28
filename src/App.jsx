@@ -20,33 +20,56 @@ function App() {
     blockScroll()
     setShowLoadingAnimation(true)
     try {
-      let response = await axios.get(`http://localhost:5000/search/?name=${searchName}&page=${pageNumber}`)
-      setSearchResult(response.data)
+      const cacheKey = `searchResults_${searchName}_${pageNumber}`;
+      const cachedData = sessionStorage.getItem(cacheKey);
+
+      if (cachedData) {
+        setSearchResult(JSON.parse(cachedData));
+
+      } 
+      else {
+
+        const response = await axios.get(`https://rickandmortybackend-s7op.onrender.com/search/?name=${searchName}&page=${pageNumber}`);
+        setSearchResult(response.data);
+
+        sessionStorage.setItem(cacheKey, JSON.stringify(response.data));
+      }
+    } catch (e) {
+
+      let alertMessage = e.response.data.error ? e.response.data.error : 'Something went wrong, please try again';
+      alert(alertMessage);
+
+    } finally {
+
+      setShowLoadingAnimation(false);
+      allowScroll();
     }
-    catch (e) {
-      let alertMessage = e.response.data.error ? e.response.data.error : 'Something went wrong, please try again'
-      alert(alertMessage)
-    }
-    finally {
-      setShowLoadingAnimation(false)
-      allowScroll()
-    }
-  }
+  };
 
   const handleOpenModal = async (character_id) => {
-    blockScroll()
+    blockScroll();
+
     try {
-      let response = await axios.get(`http://localhost:5000/search/${character_id}`)
-      setSelectedCharacter(response.data.character);
+      const cacheKey = `characterDetails_${character_id}`;
+      const cachedData = sessionStorage.getItem(cacheKey);
+
+      if (cachedData) {
+        setSelectedCharacter(JSON.parse(cachedData));
+      } 
+      else {
+
+        const response = await axios.get(`https://rickandmortybackend-s7op.onrender.com/search/${character_id}`);
+        setSelectedCharacter(response.data.character);
+
+        sessionStorage.setItem(cacheKey, JSON.stringify(response.data.character));
+      }
+    } catch (e) {
+
+      let alertMessage = e.response.data.error ? e.response.data.error : 'Something went wrong, please try again';
+      alert(alertMessage);
+      allowScroll();
+
     }
-    catch (e) {
-      let alertMessage = e.response.data.error ? e.response.data.error : 'Something went wrong, please try again'
-      alert(alertMessage)
-    }
-    finally {
-      allowScroll()
-    }
-    blockScroll()
   };
 
   const handleCloseModal = () => {
@@ -63,7 +86,7 @@ function App() {
       )}
 
       {searchResult && (
-        <Character_Grid searchResult={searchResult} handleSearch={handleSearch} openModal={handleOpenModal}/>
+        <Character_Grid searchResult={searchResult} handleSearch={handleSearch} openModal={handleOpenModal} />
       )}
 
       {selectedCharacter && (
