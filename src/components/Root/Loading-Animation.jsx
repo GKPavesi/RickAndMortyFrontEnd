@@ -1,4 +1,4 @@
-import Loading_card from '../Assets/loading-card.png'
+import Loading_card from '../../Assets/loading-card.png'
 
 const Loading_animation = () => {
 

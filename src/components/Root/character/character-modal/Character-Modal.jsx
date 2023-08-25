@@ -1,7 +1,7 @@
 import Modal_about from './Modal-About'
 import Modal_Origin from './Modal-Origin'
 import Modal_Current from './Modal-Current'
-import residentsIcon from '../../../Assets/residents-icon.svg'
+import residentsIcon from '../../../../Assets/residents-icon.svg'
 
 
 const Character_Modal = ({ character, closeModal }) => {

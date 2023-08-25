@@ -1,4 +1,4 @@
-import logo from '../../Assets/logo.png'
+import logo from '../../../Assets/logo.png'
 import Search from './Search'
 
 const Header = ({ handleSearch, setSearchName, searchName }) => {

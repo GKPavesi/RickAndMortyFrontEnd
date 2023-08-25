@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import axios from 'axios'
-import Header from './components/header/Header'
-import Character_Grid from './components/character/Character-Grid'
-import Loading_animation from './components/Loading-Animation'
-import BlockScroll from './components/BlockScroll'
-import Character_Modal from './components/character/character-modal/Character-Modal'
+import Header from './components/Root/header/Header'
+import Character_Grid from './components/Root/character/Character-Grid'
+import Loading_animation from './components/Root/Loading-Animation'
+import BlockScroll from './components/Root/BlockScroll'
+import Character_Modal from './components/Root/character/character-modal/Character-Modal'
 import './App.css'
 
 function App() {

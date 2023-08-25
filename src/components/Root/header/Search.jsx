@@ -7,7 +7,13 @@ const Search = ({ handleSearch, setSearchName, searchName }) => {
                 placeholder='Search characters'
                 id='search-input'
                 value={searchName}
-                onChange={e => setSearchName(e.target.value)} />
+                onChange={e => setSearchName(e.target.value)}
+                onKeyDown={e => {
+                    if (e.key === "Enter") {
+                        handleSearch();
+                    }
+                }}
+            />
             <button id='search-button' onClick={() => handleSearch()}>Search</button>
         </div>
     )
