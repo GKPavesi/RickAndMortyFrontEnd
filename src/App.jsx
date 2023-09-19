@@ -5,6 +5,7 @@ import Character_Grid from './components/Root/character/Character-Grid'
 import Loading_animation from './components/Root/Loading-Animation'
 import BlockScroll from './components/Root/BlockScroll'
 import Character_Modal from './components/Root/character/character-modal/Character-Modal'
+import { useAuth } from './components/Auth/AuthContext'
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
   const [showLoadingAnimation, setShowLoadingAnimation] = useState(false)
   const [blockScroll, allowScroll] = BlockScroll();
   const [selectedCharacter, setSelectedCharacter] = useState(null)
+  const { currentUser } = useAuth();
 
   const handleSearch = async (pageNumber = 1) => {
     window.scrollTo({ top: 0, behavior: 'auto' });
@@ -29,7 +31,13 @@ function App() {
       } 
       else {
 
-        const response = await axios.get(`https://rickandmortybackend-s7op.onrender.com/search/?name=${searchName}&page=${pageNumber}`);
+        const authConfig = {
+          headers: {
+            "Authorization": `Bearer ${currentUser.accessToken}`
+          }
+        }
+
+        const response = await axios.get(`https://rickandmortybackend-s7op.onrender.com/search/?name=${searchName}&page=${pageNumber}`, authConfig);
         setSearchResult(response.data);
 
         sessionStorage.setItem(cacheKey, JSON.stringify(response.data));
@@ -58,7 +66,13 @@ function App() {
       } 
       else {
 
-        const response = await axios.get(`https://rickandmortybackend-s7op.onrender.com/search/${character_id}`);
+        const authConfig = {
+          headers: {
+            "Authorization": `Bearer ${currentUser.accessToken}`
+          }
+        }
+
+        const response = await axios.get(`https://rickandmortybackend-s7op.onrender.com/search/${character_id}`, authConfig);
         setSelectedCharacter(response.data.character);
 
         sessionStorage.setItem(cacheKey, JSON.stringify(response.data.character));
@@ -97,3 +111,9 @@ function App() {
 }
 
 export default App
+
+
+    //[TODO ON THE FUTURE]
+    //forgot password
+    //dashboard e redefinir senha
+    //reenviar email
